@@ -16,10 +16,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: macos-latest
-            os: macos-latest
+          - runner: macos-15
+            os: macos-15
             arch: arm64
-            deployment-target: '11.0'
+            deployment-target: '15.0'
             extensions: pgvector pgvectorscale pgtextsearch pg_duckdb
           - runner: ubuntu-latest
             os: ubuntu-latest
@@ -94,13 +94,13 @@ jobs:
         if: matrix.os != 'ubuntu-latest'
         shell: bash
         run: |
-          if [ "${{ matrix.os }}" = "macos-latest" ]; then
+          if [ "${{ matrix.os }}" = "macos-15" ]; then
             brew install ccache
           elif [ "${{ matrix.os }}" = "windows-2022" ]; then
             choco install ccache
           fi
       - name: Install tools and libs (macOS)
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'macos-15'
         run: |
           brew install jq lz4 openssl
       - name: Install tools and libs (Windows)
@@ -116,7 +116,7 @@ jobs:
           EXTENSIONS: ${{ matrix.extensions }}
         run: |
           INSTALL_BIN="$(pwd)/src/pgembed/pginstall/bin"
-          if [ "${{ matrix.os }}" = "macos-latest" ]; then
+          if [ "${{ matrix.os }}" = "macos-15" ]; then
             export PATH="$INSTALL_BIN:$HOME/.cargo/bin:/opt/homebrew/opt/ccache/bin:$PATH"
             export LDFLAGS="-L/opt/homebrew/lib -lssl -lcrypto"
             export IS_MUSL=0
