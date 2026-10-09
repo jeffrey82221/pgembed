@@ -1,7 +1,9 @@
+import sys
+
 __version__ = "0.1.8"
 
 EXTENSION_NAME = "pgsql_http"
-EXTENSION_SO = "http.so"
+EXTENSION_SO = "http.dylib" if sys.platform == "darwin" else "http.so"
 EXTENSION_CREATE = "http"
 
 
